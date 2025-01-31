@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkOS.API", "WorkOS.API\WorkOS.API.csproj", "{91503199-B1BF-4EF5-9211-B7C586EFA278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.API", "WorkOS.API\WorkOS.API.csproj", "{91503199-B1BF-4EF5-9211-B7C586EFA278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkOS.AppHost", "WorkOS.AppHost\WorkOS.AppHost.csproj", "{307D7615-51E2-48AA-827A-4DE0E2035BB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.AppHost", "WorkOS.AppHost\WorkOS.AppHost.csproj", "{307D7615-51E2-48AA-827A-4DE0E2035BB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkOS.ServiceDefaults", "WorkOS.ServiceDefaults\WorkOS.ServiceDefaults.csproj", "{54E01579-B81A-4738-B494-BC6ECA64ABEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.ServiceDefaults", "WorkOS.ServiceDefaults\WorkOS.ServiceDefaults.csproj", "{54E01579-B81A-4738-B494-BC6ECA64ABEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkOS.Shared", "WorkOS.Shared\WorkOS.Shared.csproj", "{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.Shared", "WorkOS.Shared\WorkOS.Shared.csproj", "{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.Client", "WorkOS.Client\WorkOS.Client.csproj", "{C9744249-FEB0-4015-8DF9-052307811464}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9744249-FEB0-4015-8DF9-052307811464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9744249-FEB0-4015-8DF9-052307811464}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9744249-FEB0-4015-8DF9-052307811464}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9744249-FEB0-4015-8DF9-052307811464}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

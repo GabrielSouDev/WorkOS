@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WorkOS.API\WorkOS.API.csproj" />
+    <ProjectReference Include="..\WorkOS.Client\WorkOS.Client.csproj" />
   </ItemGroup>
 
 </Project>
