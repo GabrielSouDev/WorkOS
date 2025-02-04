@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace WorkOS.Shared.Entitys;
 
-public class Group
+public class Comment
 {
-    public Group() { }
-    public Group(string name)
+    public Comment() { }
+    public Comment(string text, int taskId)
     {
-        Name = name;
+        Text = text;
+        TaskId = taskId;
         CreationDate = DateTime.UtcNow;
     }
     public int Id { get; set; }
-    public string Name { get; set; }
-    public virtual ICollection<User> Users { get; set; }
+    public string Text { get; set; } = string.Empty;
+    public int TaskId { get; set; }
+    public virtual TaskItem Task { get; set; }
     public DateTime CreationDate { get; set; }
 }

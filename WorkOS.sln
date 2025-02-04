@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.AppHost", "WorkOS.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.ServiceDefaults", "WorkOS.ServiceDefaults\WorkOS.ServiceDefaults.csproj", "{54E01579-B81A-4738-B494-BC6ECA64ABEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.Shared", "WorkOS.Shared\WorkOS.Shared.csproj", "{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.Data", "WorkOS.Data\WorkOS.Data.csproj", "{F45A2056-90DF-4CB2-8DD6-E386DA78ED54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkOS.BlazorServer", "WorkOS.BlazorServer\WorkOS.BlazorServer.csproj", "{9E84A7CE-5BAA-465E-ACFF-7E419947E7AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.BlazorServer", "WorkOS.BlazorServer\WorkOS.BlazorServer.csproj", "{9E84A7CE-5BAA-465E-ACFF-7E419947E7AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkOS.Shared", "WorkOS.Shared\WorkOS.Shared.csproj", "{4FDF5992-DA61-4EE5-9A77-7D63B33847AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,8 +41,15 @@ Global
 		{9E84A7CE-5BAA-465E-ACFF-7E419947E7AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E84A7CE-5BAA-465E-ACFF-7E419947E7AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E84A7CE-5BAA-465E-ACFF-7E419947E7AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FDF5992-DA61-4EE5-9A77-7D63B33847AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FDF5992-DA61-4EE5-9A77-7D63B33847AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FDF5992-DA61-4EE5-9A77-7D63B33847AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FDF5992-DA61-4EE5-9A77-7D63B33847AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1BE49B28-507D-47B4-A515-0B8A5627B07B}
 	EndGlobalSection
 EndGlobal

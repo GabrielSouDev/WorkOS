@@ -1,29 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkOS.Shared.Entitys;
 
-namespace WorkOS.Shared.Data;
+namespace WorkOS.Shared.Context;
 
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-    public DbSet<Group> Groups { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<TaskItem> Tasks { get; set; }
+    public DbSet<GroupDTO> Groups { get; set; }
+    public DbSet<UserDTO> Users { get; set; }
+    public DbSet<TaskItemDTO> Tasks { get; set; }
     public DbSet<Comment> Comments { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Group>().HasMany(g => g.Users)
+        modelBuilder.Entity<GroupDTO>().HasMany(g => g.Users)
                     .WithOne(u => u.Group)
                     .HasForeignKey(u => u.GroupId);
 
-        modelBuilder.Entity<User>().HasMany(u => u.TaskItem)
+        modelBuilder.Entity<UserDTO>().HasMany(u => u.TaskItem)
                     .WithOne(t => t.Author)
                     .HasForeignKey(t => t.AuthorId);
 
-        modelBuilder.Entity<TaskItem>().HasMany(t => t.Comments)
+        modelBuilder.Entity<TaskItemDTO>().HasMany(t => t.Comments)
                     .WithOne(c => c.Task)
                     .HasForeignKey(c => c.TaskId);
-
     }
     public async Task CreateTable()
     {
@@ -31,7 +30,7 @@ public class ApplicationDbContext : DbContext
         if(!this.Groups.Any(c=>c.Name == "Teste Group"))
         {
             var Group = new Group("Teste");
-            await this.Groups.AddAsync(Group);
+            await this.Groups.AddAsync((GroupDTO)Group);
             await this.SaveChangesAsync();
 
             var user = new User(Group.Id ,"TesteUser", "teste", "teste123", "test@email.com", LevelCode.Staff);

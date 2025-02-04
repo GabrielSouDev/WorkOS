@@ -16,6 +16,7 @@ public class TaskItem
         Status = StatusCode.Plan;
         Priority = priority;
         AuthorId = authorId;
+        Comments = new List<Comment>();
         CreationDate = DateTime.UtcNow;
     }
     public int Id { get; set; }
@@ -27,17 +28,4 @@ public class TaskItem
     public virtual User Author { get; set; }
     public virtual ICollection<Comment> Comments { get; set; }
     public DateTime CreationDate { get; set; }
-}
-public enum Priority
-{
-    Low = 0,
-    Medium = 1,
-    High = 2
-}
-
-public enum StatusCode
-{
-    Plan = 0,
-    Started = 1,
-    Completed = 2
 }

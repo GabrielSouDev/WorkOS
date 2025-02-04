@@ -9,7 +9,7 @@ public static class GroupExtensions
     {
         var group = app.MapGroup("Group");
 
-        group.MapGet("/", async ([FromServices]DAL<Group> dalGroup) =>
+        group.MapGet("/", async ([FromServices]DAL<GroupDTO> dalGroup) =>
         {
             var groups = await dalGroup.ToListAsync();
             if(groups is not null)
@@ -19,7 +19,7 @@ public static class GroupExtensions
             return Results.NotFound();
         });
 
-        group.MapGet("/{id}", async ([FromServices] DAL<Group> dalGroup, int id) =>
+        group.MapGet("/{id}", async ([FromServices] DAL<GroupDTO> dalGroup, int id) =>
         {
             var group = await dalGroup.FindByAsync(g => g.Id.Equals(id));
             if (group is not null)

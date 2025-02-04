@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-namespace WorkOS.Shared.Entitys;
+﻿namespace WorkOS.Shared.Entitys;
 
 public class User
 {
@@ -17,23 +10,18 @@ public class User
         Login = login;
         Password = password;
         Email = email;
+        Tasks = new List<TaskItem>();
         Level = level;
         CreationDate = DateTime.UtcNow;
     }
     public int Id { get; set; }
     public int GroupId { get; set; }
     public virtual Group Group { get; set; }
-    public string Name { get; set; }
-    public string Login { get; set; }
-    public string Password { get; set; }
-    public string Email { get; set; }
-    public virtual ICollection<TaskItem> TaskItem { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Login { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public virtual ICollection<TaskItem> Tasks { get; set; }
     public LevelCode Level { get; set; }
     public DateTime CreationDate { get; set; }
-}
-
-public enum LevelCode
-{
-    Staff = 0,
-    Operator = 1
 }

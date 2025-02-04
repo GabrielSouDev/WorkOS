@@ -2,7 +2,7 @@
 
 using System.Linq.Expressions;
 
-namespace WorkOS.Shared.Data;
+namespace WorkOS.Shared.Context;
 
 public class DAL<T> where T : class
 {

@@ -1,4 +1,5 @@
 ﻿using MudBlazor;
+using MudBlazor.Utilities;
 
 namespace WorkOS.BlazorServer.Components.Layout;
 
@@ -8,13 +9,13 @@ public static class CustomTheme
     {
         PaletteLight = new PaletteLight()
         {
-            Primary = Colors.Cyan.Lighten1,
-            Secondary = Colors.Cyan.Lighten2,
-            Tertiary = Colors.Cyan.Lighten3,
-            Background = Colors.Cyan.Darken1,
-            AppbarText = Colors.Cyan.Darken2,
-            DrawerText = Colors.Cyan.Darken3,
-            DrawerIcon = Colors.Cyan.Darken4
+            Primary = new MudColor("#2F0869"),
+            Secondary = new MudColor("#3E0B8B"),
+            Tertiary = new MudColor("#4E0EAD"),
+            Background = new MudColor("#4E0EAD"),
+            AppbarText = Colors.Gray.Lighten5,
+            DrawerText = Colors.Gray.Lighten5,
+            DrawerIcon = Colors.Gray.Lighten5
         },
         PaletteDark = new PaletteDark()
         {

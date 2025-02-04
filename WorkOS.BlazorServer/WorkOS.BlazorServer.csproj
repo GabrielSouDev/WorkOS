@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WorkOS.ServiceDefaults\WorkOS.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\WorkOS.Shared\WorkOS.Shared.csproj" />
   </ItemGroup>
 
 </Project>
