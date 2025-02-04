@@ -1,0 +1,33 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="CustomTheme.Theme" IsDarkMode="false" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Class="d-flex align-items-center" Color="Color.Primary" Fixed="true" Elevation="25">
+        @* <MudIconButton Icon="@_arrowMenu" Color="Color.Inherit" Class="white-icon" OnClick="DrawerToggle" /> *@
+        <MudText Typo="Typo.h4">WorkOS</MudText>
+        <MudSpacer />
+    </MudAppBar>
+
+    <MudDrawer Color="Color.Secondary" Open="@_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="10">
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+    // private string _arrowMenu = Icons.Material.Filled.KeyboardDoubleArrowLeft;
+
+    // void DrawerToggle()
+    // {
+    //     _drawerOpen = !_drawerOpen;
+    //     _arrowMenu = _drawerOpen ? Icons.Material.Filled.KeyboardDoubleArrowLeft : Icons.Material.Filled.KeyboardDoubleArrowRight;
+    // }
+}

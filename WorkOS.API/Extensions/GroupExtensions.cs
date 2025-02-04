@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkOS.Shared.Data;
-using WorkOS.Shared.Models;
+using WorkOS.Shared.Entitys;
 
 namespace WorkOS.API.Extensions;
 public static class GroupExtensions
@@ -19,7 +19,7 @@ public static class GroupExtensions
             return Results.NotFound();
         });
 
-        group.MapGet("/{id}", async ([FromServices] DAL<Group> dalGroup, [FromBody] int id) =>
+        group.MapGet("/{id}", async ([FromServices] DAL<Group> dalGroup, int id) =>
         {
             var group = await dalGroup.FindByAsync(g => g.Id.Equals(id));
             if (group is not null)

@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WorkOS.API\WorkOS.API.csproj" />
-    <ProjectReference Include="..\WorkOS.Client\WorkOS.Client.csproj" />
+    <ProjectReference Include="..\WorkOS.BlazorServer\WorkOS.BlazorServer.csproj" />
   </ItemGroup>
 
 </Project>
