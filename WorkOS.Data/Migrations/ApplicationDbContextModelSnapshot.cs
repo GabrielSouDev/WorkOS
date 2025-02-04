@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WorkOS.Shared.Data;
+using WorkOS.Data.Context;
 
 #nullable disable
 
@@ -25,7 +25,7 @@ namespace WorkOS.Shared.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.Comment", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace WorkOS.Shared.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.Group", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.Company", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,10 +67,35 @@ namespace WorkOS.Shared.Migrations
 
                     b.HasKey("Id");
 
+                    b.ToTable("Companys");
+                });
+
+            modelBuilder.Entity("WorkOS.Data.Entitys.Group", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
                     b.ToTable("Groups");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.TaskItem", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.TaskItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,7 +130,7 @@ namespace WorkOS.Shared.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.User", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,9 +170,9 @@ namespace WorkOS.Shared.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.Comment", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.Comment", b =>
                 {
-                    b.HasOne("WorkOS.Shared.Entitys.TaskItem", "Task")
+                    b.HasOne("WorkOS.Data.Entitys.TaskItem", "Task")
                         .WithMany("Comments")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -156,10 +181,21 @@ namespace WorkOS.Shared.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.TaskItem", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.Group", b =>
                 {
-                    b.HasOne("WorkOS.Shared.Entitys.User", "Author")
-                        .WithMany("TaskItem")
+                    b.HasOne("WorkOS.Data.Entitys.Company", "Company")
+                        .WithMany("Groups")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("WorkOS.Data.Entitys.TaskItem", b =>
+                {
+                    b.HasOne("WorkOS.Data.Entitys.User", "Author")
+                        .WithMany("Tasks")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -167,9 +203,9 @@ namespace WorkOS.Shared.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.User", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.User", b =>
                 {
-                    b.HasOne("WorkOS.Shared.Entitys.Group", "Group")
+                    b.HasOne("WorkOS.Data.Entitys.Group", "Group")
                         .WithMany("Users")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -178,19 +214,24 @@ namespace WorkOS.Shared.Migrations
                     b.Navigation("Group");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.Group", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.Company", b =>
+                {
+                    b.Navigation("Groups");
+                });
+
+            modelBuilder.Entity("WorkOS.Data.Entitys.Group", b =>
                 {
                     b.Navigation("Users");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.TaskItem", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.TaskItem", b =>
                 {
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("WorkOS.Shared.Entitys.User", b =>
+            modelBuilder.Entity("WorkOS.Data.Entitys.User", b =>
                 {
-                    b.Navigation("TaskItem");
+                    b.Navigation("Tasks");
                 });
 #pragma warning restore 612, 618
         }

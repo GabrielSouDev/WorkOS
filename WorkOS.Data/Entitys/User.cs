@@ -1,4 +1,6 @@
-﻿namespace WorkOS.Shared.Entitys;
+﻿using WorkOS.Shared;
+
+namespace WorkOS.Data.Entitys;
 
 public class User
 {
@@ -21,7 +23,7 @@ public class User
     public string Login { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public virtual ICollection<TaskItem> Tasks { get; set; }
     public LevelCode Level { get; set; }
+    public virtual ICollection<TaskItem> Tasks { get; set; }
     public DateTime CreationDate { get; set; }
 }

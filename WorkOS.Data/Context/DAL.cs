@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using System.Linq.Expressions;
 
-namespace WorkOS.Shared.Context;
+namespace WorkOS.Data.Context;
 
 public class DAL<T> where T : class
 {

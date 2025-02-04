@@ -1,11 +1,14 @@
-﻿using MudBlazor;
+﻿using Microsoft.Extensions.Primitives;
+using MudBlazor;
+using MudBlazor.Interfaces;
 using MudBlazor.Utilities;
+using System.Data;
 
-namespace WorkOS.BlazorServer.Components.Layout;
+namespace WorkOS.BlazorServer.Services;
 
-public static class CustomTheme
+public class ThemeService : MudTheme
 {
-    public static readonly MudTheme Theme = new MudTheme()
+    public readonly MudTheme LightTheme = new MudTheme()
     {
         PaletteLight = new PaletteLight()
         {
@@ -16,7 +19,11 @@ public static class CustomTheme
             AppbarText = Colors.Gray.Lighten5,
             DrawerText = Colors.Gray.Lighten5,
             DrawerIcon = Colors.Gray.Lighten5
-        },
+        }
+    };
+
+    public readonly MudTheme DarkTheme = new MudTheme()
+    {
         PaletteDark = new PaletteDark()
         {
             Primary = Colors.Cyan.Darken1,
@@ -28,4 +35,21 @@ public static class CustomTheme
             DrawerIcon = Colors.Cyan.Darken4
         }
     };
+    public MudTheme CurrentTheme { get; private set; }
+    public ThemeService()
+    {
+        CurrentTheme = LightTheme;
+    }
+    
+
+    public void SwitchTheme()
+    {
+        if (CurrentTheme == LightTheme)
+        {
+            CurrentTheme = DarkTheme;
+        }
+        else
+            CurrentTheme = LightTheme;
+        
+    }
 }

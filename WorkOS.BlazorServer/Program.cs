@@ -1,5 +1,6 @@
 using MudBlazor.Services;
 using WorkOS.BlazorServer.Components;
+using WorkOS.BlazorServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ builder.Services.AddMudServices();
 builder.AddServiceDefaults();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7237") });
+
+builder.Services.AddSingleton<ThemeService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

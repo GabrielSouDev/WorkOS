@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using WorkOS.API.Extensions;
-using WorkOS.Shared.Context;
-using WorkOS.Shared.Entitys;
+using WorkOS.Data.Context;
+using WorkOS.Data.Entitys;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,9 +43,10 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<DAL<GroupDTO>>();
-builder.Services.AddTransient<DAL<UserDTO>>();
-builder.Services.AddTransient<DAL<TaskItemDTO>>();
+builder.Services.AddTransient<DAL<Company>>();
+builder.Services.AddTransient<DAL<Group>>();
+builder.Services.AddTransient<DAL<User>>();
+builder.Services.AddTransient<DAL<TaskItem>>();
 
 var app = builder.Build();
 
@@ -67,6 +68,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowWorkOSClient");
 
+app.AddCompanysEndpoints();
 app.AddGroupsEndpoints();
 app.AddUsersEndpoints();
 app.AddTasksEndpoints();

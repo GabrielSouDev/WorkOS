@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WorkOS.Shared.Entitys;
-
+﻿namespace WorkOS.Data.Entitys;
 public class Comment
 {
     public Comment() { }
-    public Comment(string text, int taskId)
+    public Comment(int taskId, string text)
     {
-        Text = text;
         TaskId = taskId;
+        Text = text;
         CreationDate = DateTime.UtcNow;
     }
     public int Id { get; set; }
-    public string Text { get; set; } = string.Empty;
     public int TaskId { get; set; }
     public virtual TaskItem Task { get; set; }
+    public string Text { get; set; } = string.Empty;
     public DateTime CreationDate { get; set; }
 }

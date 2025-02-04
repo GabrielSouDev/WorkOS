@@ -1,0 +1,23 @@
+﻿@rendermode InteractiveServer
+@inject ThemeService ThemeService
+@inject NavigationManager NavigationManager
+
+<MudSwitch T="bool" Value="_isDarkMode" ValueChanged="SwitchTheme">Switch Theme</MudSwitch>
+@code {
+    [CascadingParameter]
+    MainLayout Layout { get; set; }
+
+    private bool _isDarkMode;
+
+    protected override void OnInitialized()
+    {
+        _isDarkMode = ThemeService.CurrentTheme == ThemeService.DarkTheme ? true : false;
+    }
+
+    public void SwitchTheme()
+    {
+        _isDarkMode = !_isDarkMode;
+        ThemeService.SwitchTheme();
+        NavigationManager.Refresh();
+    }
+}
