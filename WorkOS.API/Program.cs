@@ -8,24 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseLazyLoadingProxies()
-           .UseSqlServer(builder.Configuration
-                                .GetConnectionString("DefaultConnection"));
+    options.UseInMemoryDatabase("MemoryDB")
+           .UseLazyLoadingProxies();
+    //.UseSqlServer(builder.Configuration
+    //                     .GetConnectionString("DefaultConnection"))
+    //                     .UseLazyLoadingProxies();
 });
 
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
-    // Preserva as referências, evitando erros de ciclo de referência
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-
-    // Define que propriedades nulas sejam incluídas no JSON
     options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-
-    // Mantém a nomeação das propriedades como está no modelo, sem aplicar camelCase
     options.SerializerOptions.PropertyNamingPolicy = null;
-
     // Permite enum serem serializados/deserializados como strings
-    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    //options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 
 builder.Services.AddCors(options =>
@@ -53,7 +49,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.CreateTable().Wait();
+    dbContext.Database.EnsureCreated();
+    //dbContext.CreateTable().Wait();
 }
 
 app.MapDefaultEndpoints();

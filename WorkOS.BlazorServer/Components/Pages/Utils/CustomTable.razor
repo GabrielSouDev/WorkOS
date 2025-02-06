@@ -1,19 +1,40 @@
-﻿<MudTable Items="@Elements.Take(4)" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+﻿@using WorkOS.Shared.DTO.Response
+@rendermode InteractiveServer
+@inject TaskService TaskService
+
+<MudTable Items="@Elements" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
     <HeaderContent>
-        <MudTh>Nr</MudTh>
-        <MudTh>Sign</MudTh>
-        <MudTh>Name</MudTh>
-        <MudTh>Position</MudTh>
-        <MudTh>Molar mass</MudTh>
+        <MudTh>Id</MudTh>
+        <MudTh>Title</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Status</MudTh>
+        <MudTh>Priority</MudTh>
+        <MudTh>AuthorId</MudTh>
+        <MudTh>Author</MudTh>
+        <MudTh>Comments</MudTh>
+        <MudTh>CreationDate</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Nr">@context</MudTd>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+        <MudTd DataLabel="Priority">@context.Priority</MudTd>
+        <MudTd DataLabel="AuthorId">@context.AuthorId</MudTd>
+        <MudTd DataLabel="Author">@context.Author</MudTd>
+        <MudTd DataLabel="Comments">@context.Comments</MudTd>
+        <MudTd DataLabel="CreationDate">@context.CreationDate</MudTd>
     </RowTemplate>
 </MudTable>
 
 @code {
-    [CascadingParameter]
-    List<Object> Elements { get; set; }
+    List<TaskItemResponseDTO> Elements { get; set; }
 
     private bool _loading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var Tasks = await TaskService.GetTasksAsync();
+        Elements = Tasks;
+    }
 }

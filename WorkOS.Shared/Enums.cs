@@ -2,7 +2,8 @@
 public enum LevelCode
 {
     Staff = 0,
-    Operator = 1
+    Manager = 1,
+    Operator = 2
 }
 public enum Priority
 {

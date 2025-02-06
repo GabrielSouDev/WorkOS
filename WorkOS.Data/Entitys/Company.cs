@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-namespace WorkOS.Data.Entitys;
+﻿namespace WorkOS.Data.Entitys;
 
 public class Company
 {

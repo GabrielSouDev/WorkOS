@@ -9,7 +9,7 @@ public static class CompanyExtensions
     {
         var group = app.MapGroup("Company");
 
-        group.MapGet("/", async ([FromServices] DAL<Company> dalGroup) =>
+        group.MapGet("/", async ([FromServices]DAL<Company> dalCompany) =>
         {
 
         });

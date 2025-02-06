@@ -8,7 +8,7 @@ namespace WorkOS.Shared.DTO.Response;
 
 public class GroupResponseDTO
 {
-    public GroupResponseDTO(int id, string name, ICollection<UserResponseDTO> users, DateTime creationDate)
+    public GroupResponseDTO(int id, string name, List<UserResponseDTO> users, DateTime creationDate)
     {
         Id = id;
         Name = name;
@@ -17,6 +17,6 @@ public class GroupResponseDTO
     }
     public int Id { get; set; }
     public string Name { get; set; }
-    public ICollection<UserResponseDTO> Users { get; set; }
+    public List<UserResponseDTO> Users { get; set; }
     public DateTime CreationDate { get; set; }
 }

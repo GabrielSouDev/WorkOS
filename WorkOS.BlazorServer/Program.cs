@@ -11,6 +11,7 @@ builder.AddServiceDefaults();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7237") });
 
 builder.Services.AddSingleton<ThemeService>();
+builder.Services.AddScoped<TaskService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
