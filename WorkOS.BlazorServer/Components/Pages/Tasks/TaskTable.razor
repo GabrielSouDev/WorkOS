@@ -1,0 +1,91 @@
+﻿@rendermode InteractiveServer
+
+<MudContainer Class="d-flex">
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge">
+        <MudPaper Width="90%" Class="rounded-t-xl d-flex">
+            <MudIconButton Icon="@(_IsHidden ? Icons.Material.Filled.ArrowDropDown : Icons.Material.Filled.ArrowDropUp)"
+                           Color="Color.Primary" aria-label="ArrowDrop" OnClick="ToggleTable" />
+            <MudText Style="@_textColor" Class="pl-10" Align="Align.Center" Typo="Typo.h6">@Title.ToUpper()</MudText>
+
+        </MudPaper>
+        <MudPaper hidden="@_IsHidden" Width="90%">
+            <MudTable Style="@_tableColor" Items="@TaskList" Filter="@_quickFilter" Hover="true" Breakpoint="Breakpoint.Sm"
+                      Loading="@Loading" LoadingProgressColor="Color.Info">
+                <HeaderContent>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Title</MudTh>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Priority</MudTh>
+                    <MudTh>Author</MudTh>
+                    <MudTh>CreationDate</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
+                           DataLabel="Id">@context.Id</MudTd>
+                    <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
+                           DataLabel="Title">@context.Title</MudTd>
+                    <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
+                           DataLabel="Status">@context.Status</MudTd>
+                    <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
+                           DataLabel="Priority">@context.Priority</MudTd>
+                    <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
+                           DataLabel="Author">@context.Author</MudTd>
+                    <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
+                           DataLabel="CreationDate">@context.CreationDate</MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudPaper>
+        <MudPaper Class="rounded-b-xl mb-5" Width="90%" Height="5px" />
+    </MudContainer>
+    
+</MudContainer>
+
+@code {
+    [CascadingParameter]
+    public string SearchString { get; set; } = string.Empty;
+
+    [CascadingParameter]
+    public bool Loading { get; set; }
+
+    [Parameter]
+    public string TableColor{ get; set; }
+
+    [Parameter]
+    public List<TaskItemResponseDTO> TaskList { get; set; } = new();
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback<TaskItemResponseDTO> OpenDrawer {get;set;}
+
+    private bool _IsHidden = false;
+
+    private string _tableColor = string.Empty;
+    private string _textColor = string.Empty;
+
+    private void ToggleTable() => _IsHidden = !_IsHidden;
+
+    protected override void OnInitialized()
+    {
+        _tableColor = $"border-left: 5px solid {TableColor};";
+        _textColor = $"color: {TableColor};";
+    }
+
+    private Func<TaskItemResponseDTO, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(SearchString))
+            return true;
+
+        if (x.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.Description.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if (x.Author.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    };
+}

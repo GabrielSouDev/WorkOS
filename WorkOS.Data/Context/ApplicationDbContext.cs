@@ -70,10 +70,10 @@ public class ApplicationDbContext : DbContext
 
         // Gerando as tasks para cada user
         var task1_1 = new TaskItem(user1_1.Id, "Project Planning", "Plan the next phase of the project", Priority.High) { Id = 1 };
-        var task1_2 = new TaskItem(user1_1.Id, "Budget Review", "Review the budget for the new quarter", Priority.Medium) { Id = 2 };
+        var task1_2 = new TaskItem(user1_1.Id, "Budget Review", "Review the budget for the new quarter", Priority.Medium) { Id = 2, Status = StatusCode.Started };
         var task1_3 = new TaskItem(user1_2.Id, "SEO Strategy", "Develop a strategy for SEO", Priority.Medium) { Id = 3 };
 
-        var task2_1 = new TaskItem(user2_1.Id, "Software Development", "Develop the new features for the app", Priority.High) { Id = 4 };
+        var task2_1 = new TaskItem(user2_1.Id, "Software Development", "Develop the new features for the app", Priority.High) { Id = 4, Status = StatusCode.Completed };
         var task2_2 = new TaskItem(user2_2.Id, "Design Mockups", "Create mockups for the new UI design", Priority.Low) { Id = 5 };
 
         var task3_1 = new TaskItem(user3_1.Id, "Product Testing", "Test the new features in the product", Priority.Medium) { Id = 6 };

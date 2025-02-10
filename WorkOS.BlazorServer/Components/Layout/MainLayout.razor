@@ -1,18 +1,18 @@
 ﻿@inherits LayoutComponentBase
 @inject ThemeService ThemeService
 
-<MudThemeProvider Theme="@ThemeService" IsDarkMode="ThemeService.IsDarkTheme" />
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+<MudThemeProvider Theme="@ThemeService" IsDarkMode="ThemeService.IsDarkTheme" @rendermode="RenderMode.InteractiveServer" />
+<MudPopoverProvider @rendermode="RenderMode.InteractiveServer" />
+<MudDialogProvider @rendermode="RenderMode.InteractiveServer" />
+<MudSnackbarProvider @rendermode="RenderMode.InteractiveServer" />
 
 <MudLayout>
-    <MudAppBar Class="d-flex align-items-center" Color="Color.Primary" Fixed="true" Elevation="25">
+    <MudAppBar Class="d-flex align-items-center" Color="Color.Primary" Fixed="true" Elevation="25" style="z-index: 1100">
         <MudText Typo="Typo.h4">WorkOS</MudText>
         <MudSpacer />
         <ThemeSwitch />
     </MudAppBar>
-    <MudDrawer Color="Color.Secondary" Open="true" ClipMode="DrawerClipMode.Always" Elevation="10">
+    <MudDrawer Color="Color.Secondary" Open="true" ClipMode="DrawerClipMode.Always" Elevation="15" style="z-index: 1000">
         <NavMenu />
     </MudDrawer>
 

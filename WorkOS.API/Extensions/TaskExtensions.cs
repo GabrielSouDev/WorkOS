@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using WorkOS.Data.Context;
 using WorkOS.Data.Entitys;
 using WorkOS.Shared;
+using WorkOS.Shared.DTO.Request;
 using WorkOS.Shared.DTO.Response;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -31,6 +32,25 @@ public static class TaskExtensions
                     task.Priority, task.AuthorId, task.Author.Name, commentsDto, task.CreationDate));
             }
             return Results.Ok(tasksDTO);
+        });
+
+        group.MapPut("/", async ([FromServices]DAL<TaskItem> dalTask, [FromBody] TaskItemResponseDTO taskRequest) =>
+        {
+            var task = await dalTask.FindByAsync(t=>t.Id == taskRequest.Id);
+
+            if (task is not null)
+            {
+                Console.WriteLine(taskRequest.Title);
+                task.AuthorId = taskRequest.AuthorId;
+                task.Title = taskRequest.Title;
+                task.Description = taskRequest.Description;
+                task.Status = taskRequest.Status;
+                task.Priority = taskRequest.Priority;
+
+                await dalTask.UpdateAsync(task);
+                return Results.Content("Task has been updated!");
+            }
+            return Results.NotFound();
         });
     }
 }

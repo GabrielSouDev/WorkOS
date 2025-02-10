@@ -1,0 +1,69 @@
+﻿@rendermode InteractiveServer
+@page "/Tasks"
+@inject TaskService TaskService
+
+<PageTitle>Tasks</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="pa-5">
+    <MudPaper Class="d-flex mb-5">
+        <MudText> Task Search: </MudText>
+        <MudTextField T="string" @bind-value="SearchString" Placeholder="Search"></MudTextField>
+    </MudPaper>
+    
+    <CascadingValue Value="Loading">
+        <CascadingValue Value="SearchString">
+            <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="d-block">
+                <TaskTable TableColor="@("red")" OpenDrawer="OpenTaskDrawer" Title="Plan" TaskList="TasksPlan" />
+                <TaskTable TableColor="@("blue")" OpenDrawer="OpenTaskDrawer" Title="Started" TaskList="TasksStarted" />
+                <TaskTable TableColor="@("green")" OpenDrawer="OpenTaskDrawer" Title="Completed" TaskList="TasksCompleted" />
+            </MudContainer>
+        </CascadingValue>
+    </CascadingValue>
+    <TaskDrawer IsDrawerOpen="IsDrawerOpen" DrawerTask="DrawerTask" />
+</MudContainer>
+
+
+@code {
+    public string SearchString = string.Empty;
+    private List<TaskItemResponseDTO> TaskList = new();
+    public List<TaskItemResponseDTO> TasksPlan = new();
+    public List<TaskItemResponseDTO> TasksStarted = new();
+    public List<TaskItemResponseDTO> TasksCompleted = new();
+    public bool Loading = false;
+
+    public bool IsDrawerOpen { get; set; } = false;
+    public TaskItemResponseDTO DrawerTask { get; set; }
+
+    private void OpenTaskDrawer(TaskItemResponseDTO task)
+    {
+        IsDrawerOpen = true;
+        DrawerTask = task;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // var connection = new HubConnectionBuilder().WithUrl("http:localhost:5072/TaskHub").Build();
+
+        // connection.On<TaskItemResponseDTO>("UpdateTaskItem", updatedData =>
+        // {
+        //     var task = TaskList.First(t => t.Id == updatedData.Id);
+        //     task = updatedData;
+        //     ModelTables(TaskList);
+        // });
+
+        Loading = true;
+
+        TaskList = await TaskService.GetTasksAsync();
+
+        ModelTables(TaskList);
+
+        Loading = false;
+    }
+
+    private void ModelTables(List<TaskItemResponseDTO> taskList)
+    {
+        TasksPlan = taskList.Where(t => t.Status == StatusCode.Plan).Select(t => t).ToList();
+        TasksStarted = taskList.Where(t => t.Status == StatusCode.Started).Select(t => t).ToList();
+        TasksCompleted = taskList.Where(t => t.Status == StatusCode.Completed).Select(t => t).ToList();
+    }
+}

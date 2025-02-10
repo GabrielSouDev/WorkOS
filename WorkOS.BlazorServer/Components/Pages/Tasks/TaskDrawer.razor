@@ -1,0 +1,92 @@
+﻿@rendermode InteractiveServer
+@inject TaskService TaskService
+@inject ISnackbar SnackBar
+
+<MudDrawer Class="pa-2" Width="25%" hidden="@(!IsDrawerOpen)" Open="IsDrawerOpen" Elevation="25"
+           ClipMode="DrawerClipMode.Docked" Anchor="Anchor.Right" style="position: fixed; top: 0; bottom: 0;z-index: 1200;">
+    @if (IsDrawerOpen)
+    {
+        <MudButton @onclick="()=>IsDrawerOpen = false" Color="Color.Warning">Close</MudButton>
+        <MudContainer>
+            <MudTextField Label="Title" T="string" Value="DrawerTask.Title" ValueChanged="OnTitleChanged" />
+        </MudContainer>
+
+        <MudButtonGroup Class="d-flex">
+            <MudButton OnClick="ShowDetails" Variant="Variant.Filled" 
+                Color="Color.Primary" FullWidth="true">Details</MudButton>
+            <MudButton OnClick="ShowComments" Variant="Variant.Filled" 
+                Color="Color.Primary" FullWidth="true">Comments</MudButton>
+        </MudButtonGroup>
+    
+        @if (_openedTab["Details"])
+        {
+            <MudContainer>
+                <MudTextField Label="Description" AutoGrow Lines="7" T="string" Value="DrawerTask.Description" ValueChanged="TaskChanged" />
+                <MudSelect Label="Status" T="StatusCode" Value="DrawerTask.Status" ValueChanged="TaskChanged">
+                    @foreach (var status in Enum.GetValues(typeof(StatusCode)).Cast<StatusCode>())
+                    {
+                        <MudSelectItem Value="status">@status</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudText>Author: @DrawerTask.Author</MudText>
+                <MudText>Creation Date: @DrawerTask.CreationDate</MudText>
+            </MudContainer>
+        }
+        @if (_openedTab["Comments"])
+        {
+            @foreach (var comment in DrawerTask.Comments)
+            {
+                <MudContainer class="mb-2">
+                    <MudTextField AutoGrow Lines="4" T="string" Value="comment.Text" ValueChanged="TaskChanged" />
+                    <MudText>@comment.CreationDate</MudText>
+                </MudContainer>
+            }
+        }
+    }
+</MudDrawer>
+@code {
+    [Parameter]
+    public bool IsDrawerOpen { get; set; }
+    [Parameter]
+    public TaskItemResponseDTO DrawerTask { get; set; }
+
+    Dictionary<string, bool> _openedTab = new() 
+                                { { "Details", true }, 
+                                  { "Comments", false } };
+
+    protected override void OnParametersSet()
+    {
+        StateHasChanged();
+    }
+
+    private void OnTitleChanged(string title)
+    {
+        DrawerTask.Title = title;
+        TaskChanged();
+    }
+
+    private async void TaskChanged()
+    {
+        var response = await TaskService.PutTaskAsync(DrawerTask);
+
+        var responseMessage = await response.Content.ReadAsStringAsync();
+
+        if(response.IsSuccessStatusCode)
+        {
+            SnackBar.Add(responseMessage, Severity.Success);
+        }else
+            SnackBar.Add(responseMessage, Severity.Error);
+    }
+
+    private void ShowDetails()
+    {
+        _openedTab["Details"] = true;
+        _openedTab["Comments"] = false;
+    }
+
+    private void ShowComments()
+    {
+        _openedTab["Details"] = false;
+        _openedTab["Comments"] = true;
+    }
+}

@@ -2,7 +2,8 @@
 @inject ThemeService ThemeService
 @inject NavigationManager NavigationManager
 
-<MudSwitch T="bool" Value="ThemeService.IsDarkTheme" ValueChanged="SwitchTheme">Switch Theme</MudSwitch>
+<MudFab Color="Color.Secondary" StartIcon="@Icons.Material.Filled.LightMode" OnClick="SwitchTheme" Size="Size.Small" />
+
 @code {
     public void SwitchTheme()
     {
