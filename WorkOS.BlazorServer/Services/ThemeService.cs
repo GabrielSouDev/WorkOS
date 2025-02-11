@@ -12,25 +12,30 @@ public class ThemeService : MudTheme
     {
         PaletteLight = new PaletteLight()
         {
-            Primary = new MudColor("#1A73E8"), // Azul vibrante para o tema claro
-            Secondary = new MudColor("#4285F4"), // Azul mais suave
-            Tertiary = new MudColor("#8AB4F8"), // Azul claro
-            Background = new MudColor("#FFFFFF"), // Fundo branco
-            AppbarText = new MudColor("#FFFFFF"), // Texto branco no AppBar
-            DrawerText = new MudColor("#202124"), // Texto escuro no Drawer
-            DrawerIcon = new MudColor("#202124") // Ícones escuros no Drawer
+            Primary = new MudColor("#1B5E7A"),
+            Secondary = new MudColor("#4ACBCC"),
+            Tertiary = new MudColor("#2FA6B3"),
+            Background = new MudColor("#D6F1F5"),
+            AppbarBackground = new MudColor("#4ACBCC"),
+            AppbarText = new MudColor("#0F2C3F"),
+            DrawerBackground = new MudColor("#1B5E7A"),
+            DrawerText = new MudColor("#D6F1F5"),
+            DrawerIcon = new MudColor("#D6F1F5"),
         };
 
         PaletteDark = new PaletteDark()
         {
-            Primary = new MudColor("#0B5ED7"), // Azul forte para o tema escuro
-            Secondary = new MudColor("#1C6EF2"), // Azul médio
-            Tertiary = new MudColor("#4A90E2"), // Azul mais claro
-            Background = new MudColor("#121212"), // Fundo escuro
-            AppbarText = new MudColor("#E8EAED"), // Texto claro no AppBar
-            DrawerText = new MudColor("#E8EAED"), // Texto claro no Drawer
-            DrawerIcon = new MudColor("#E8EAED") // Ícones claros no Drawer
+            Primary = new MudColor("#2FA6B3"),
+            Secondary = new MudColor("#1B5E7A"),
+            Tertiary = new MudColor("#4ACBCC"),
+            Background = new MudColor("#0F2C3F"),
+            AppbarBackground = new MudColor("#1B5E7A"),
+            AppbarText = new MudColor("#D6F1F5"),
+            DrawerBackground = new MudColor("#2FA6B3"),
+            DrawerText = new MudColor("#D6F1F5"),
+            DrawerIcon = new MudColor("#D6F1F5")
         };
+
     }
     //public readonly MudTheme LightTheme = new MudTheme()
     //{
