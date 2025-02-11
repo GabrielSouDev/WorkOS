@@ -1,10 +1,25 @@
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using WorkOS.API.Extensions;
+using WorkOS.API.Hubs;
 using WorkOS.Data.Context;
 using WorkOS.Data.Entitys;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSignalR();
+
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.ConfigureHttpsDefaults(listenOptions =>
+//    {
+//        listenOptions.ServerCertificateSelector = (context, name) =>
+//        {
+//            return new X509Certificate2("path/to/your/certificate.pfx", "your-certificate-password");
+//        };
+//    });
+//});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -52,6 +67,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.EnsureCreated();
     //dbContext.CreateTable().Wait();
 }
+
+app.MapHub<TaskHub>("/TaskHub");
 
 app.MapDefaultEndpoints();
 

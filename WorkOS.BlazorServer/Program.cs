@@ -8,7 +8,7 @@ builder.Services.AddMudServices();
 
 builder.AddServiceDefaults();
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5072") });
+builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http://localhost:5072") });
 
 builder.Services.AddSingleton<ThemeService>();
 builder.Services.AddScoped<TaskService>();

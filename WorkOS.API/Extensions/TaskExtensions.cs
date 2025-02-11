@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WorkOS.API.Hubs;
 using WorkOS.Data.Context;
 using WorkOS.Data.Entitys;
 using WorkOS.Shared;
@@ -34,13 +36,12 @@ public static class TaskExtensions
             return Results.Ok(tasksDTO);
         });
 
-        group.MapPut("/", async ([FromServices]DAL<TaskItem> dalTask, [FromBody] TaskItemResponseDTO taskRequest) =>
+        group.MapPut("/", async ([FromServices]DAL<TaskItem> dalTask, [FromBody] TaskItemResponseDTO taskRequest, IHubContext<TaskHub> taskHub) =>
         {
             var task = await dalTask.FindByAsync(t=>t.Id == taskRequest.Id);
 
             if (task is not null)
             {
-                Console.WriteLine(taskRequest.Title);
                 task.AuthorId = taskRequest.AuthorId;
                 task.Title = taskRequest.Title;
                 task.Description = taskRequest.Description;
@@ -48,6 +49,7 @@ public static class TaskExtensions
                 task.Priority = taskRequest.Priority;
 
                 await dalTask.UpdateAsync(task);
+                await taskHub.Clients.All.SendAsync("UpdateTaskItem", taskRequest);
                 return Results.Content("Task has been updated!");
             }
             return Results.NotFound();

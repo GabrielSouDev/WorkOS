@@ -1,11 +1,7 @@
-﻿using Microsoft.Extensions.Primitives;
-using MudBlazor;
-using MudBlazor.Interfaces;
+﻿using MudBlazor;
 using MudBlazor.Utilities;
-using System.Data;
 
 namespace WorkOS.BlazorServer.Services;
-
 public class ThemeService : MudTheme
 {
     public ThemeService()
@@ -20,7 +16,12 @@ public class ThemeService : MudTheme
             AppbarText = new MudColor("#0F2C3F"),
             DrawerBackground = new MudColor("#1B5E7A"),
             DrawerText = new MudColor("#D6F1F5"),
-            DrawerIcon = new MudColor("#D6F1F5"),
+            TableHover = new MudColor("#A1D7E1"),
+            TableLines = new MudColor("#B8D8E5"),
+            TableStriped = new MudColor("#C6E7F2"),
+            TextPrimary = new MudColor("#1B5E7A"),
+            TextSecondary = new MudColor("#4ACBCC"),
+            DrawerIcon = new MudColor("#D6F1F5")
         };
 
         PaletteDark = new PaletteDark()
@@ -33,40 +34,15 @@ public class ThemeService : MudTheme
             AppbarText = new MudColor("#D6F1F5"),
             DrawerBackground = new MudColor("#2FA6B3"),
             DrawerText = new MudColor("#D6F1F5"),
+            TableHover = new MudColor("#335D6B"),
+            TableLines = new MudColor("#1B5E7A"),
+            TableStriped = new MudColor("#2A6F80"),
+            TextPrimary = new MudColor("#D6F1F5"),
+            TextSecondary = new MudColor("#4ACBCC"),
             DrawerIcon = new MudColor("#D6F1F5")
         };
-
     }
-    //public readonly MudTheme LightTheme = new MudTheme()
-    //{
-    //    PaletteLight = new PaletteLight()
-    //    {
-    //        Primary = new MudColor("#2F0869"),
-    //        Secondary = new MudColor("#3E0B8B"),
-    //        Tertiary = new MudColor("#4E0EAD"),
-    //        Background = new MudColor("#4E0EAD"),
-    //        AppbarText = Colors.Gray.Lighten5,
-    //        DrawerText = Colors.Gray.Lighten5,
-    //        DrawerIcon = Colors.Gray.Lighten5
-    //    }
-    //};
-
-    //public readonly MudTheme DarkTheme = new MudTheme()
-    //{
-    //    PaletteDark = new PaletteDark()
-    //    {
-    //        Primary = Colors.Cyan.Darken1,
-    //        Secondary = Colors.Cyan.Darken2,
-    //        Tertiary = Colors.Cyan.Darken3,
-    //        Background = Colors.Cyan.Lighten1,
-    //        AppbarText = Colors.Cyan.Darken2,
-    //        DrawerText = Colors.Cyan.Darken3,
-    //        DrawerIcon = Colors.Cyan.Darken4
-    //    }
-    //};
     public bool IsDarkTheme { get; private set; } = true;
-    
-
     public void SwitchTheme()
     {
         IsDarkTheme = !IsDarkTheme;

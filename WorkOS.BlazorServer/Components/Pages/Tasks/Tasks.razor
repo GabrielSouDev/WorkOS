@@ -5,17 +5,17 @@
 <PageTitle>Tasks</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="pa-5">
-    <MudPaper Class="d-flex mb-5">
-        <MudText> Task Search: </MudText>
+    <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="d-flex mb-5 align-content-center">
+        <MudText > Task Search: </MudText>
         <MudTextField T="string" @bind-value="SearchString" Placeholder="Search"></MudTextField>
-    </MudPaper>
+    </MudContainer>
     
     <CascadingValue Value="Loading">
         <CascadingValue Value="SearchString">
             <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="d-block">
-                <TaskTable TableColor="@("red")" OpenDrawer="OpenTaskDrawer" Title="Plan" TaskList="TasksPlan" />
-                <TaskTable TableColor="@("blue")" OpenDrawer="OpenTaskDrawer" Title="Started" TaskList="TasksStarted" />
-                <TaskTable TableColor="@("green")" OpenDrawer="OpenTaskDrawer" Title="Completed" TaskList="TasksCompleted" />
+                <TaskTable TableColor="@("#c83fd6")" OpenDrawer="OpenTaskDrawer" Title="Plan" TaskList="TasksPlan" />
+                <TaskTable TableColor="@("#5ce3ea")" OpenDrawer="OpenTaskDrawer" Title="Started" TaskList="TasksStarted" />
+                <TaskTable TableColor="@("#94fc22")" OpenDrawer="OpenTaskDrawer" Title="Completed" TaskList="TasksCompleted" />
             </MudContainer>
         </CascadingValue>
     </CascadingValue>
@@ -41,15 +41,32 @@
     }
 
     protected override async Task OnInitializedAsync()
-    {
-        // var connection = new HubConnectionBuilder().WithUrl("http:localhost:5072/TaskHub").Build();
+    {   
+        var httpClientHandler = new HttpClientHandler();
+        httpClientHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
+        //httpClientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
-        // connection.On<TaskItemResponseDTO>("UpdateTaskItem", updatedData =>
-        // {
-        //     var task = TaskList.First(t => t.Id == updatedData.Id);
-        //     task = updatedData;
-        //     ModelTables(TaskList);
-        // });
+        var connection = new HubConnectionBuilder().WithUrl("https://localhost:7237/TaskHub", options =>
+        {
+            options.HttpMessageHandlerFactory = _ => httpClientHandler;
+        }).Build();
+
+        connection.On<TaskItemResponseDTO>("UpdateTaskItem", updatedData =>
+        {
+            var task = TaskList.First(t => t.Id == updatedData.Id);
+            task.AuthorId = updatedData.AuthorId;
+            task.Title = updatedData.Title;
+            task.Description = updatedData.Description;
+            task.Status = updatedData.Status;
+            task.Priority = updatedData.Priority;
+
+            InvokeAsync(() =>
+            {
+                ModelTables(TaskList);
+                StateHasChanged();
+            });
+        });
+        await connection.StartAsync();
 
         Loading = true;
 
