@@ -42,6 +42,13 @@
 
     protected override async Task OnInitializedAsync()
     {   
+        Loading = true;
+
+        TaskList = await TaskService.GetTasksAsync();
+        ModelTables(TaskList);
+
+        Loading = false;
+
         var httpClientHandler = new HttpClientHandler();
         httpClientHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
         //httpClientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
@@ -67,14 +74,6 @@
             });
         });
         await connection.StartAsync();
-
-        Loading = true;
-
-        TaskList = await TaskService.GetTasksAsync();
-
-        ModelTables(TaskList);
-
-        Loading = false;
     }
 
     private void ModelTables(List<TaskItemResponseDTO> taskList)

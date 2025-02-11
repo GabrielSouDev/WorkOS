@@ -22,7 +22,7 @@
         {
             <MudContainer>
                 <MudTextField Label="Description" AutoGrow Lines="7" T="string" Value="DrawerTask.Description" ValueChanged="TaskChanged" />
-                <MudSelect Label="Status" T="StatusCode" Value="DrawerTask.Status" ValueChanged="TaskChanged" >
+                <MudSelect Label="Status" T="StatusCode" @bind-value="DrawerTask.Status" SelectedValuesChanged="TaskChanged">
                     @foreach (var status in Enum.GetValues(typeof(StatusCode)).Cast<StatusCode>())
                     {
                         <MudSelectItem Value="status">@status</MudSelectItem>

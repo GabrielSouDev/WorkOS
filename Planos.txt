@@ -1,0 +1,41 @@
+( ) |Construção de pagina de inclusão de todas entidades
+( ) |Desenvolver grupos
+
+( ) |Adicionar novos status para tasks
+( ) |Adicionar Prioridade nos campos de alteração.
+( ) |Adicionar tabelas para novos status
+( ) |Adicionar um historico para as tasks.
+( ) |Corrigir bug de cor no drawer
+( ) |
+( ) |Adicionar Dashboard com SignalR
+( ) |
+( ) |Adicionar Login com Oauth
+( ) |
+( ) |Adicionar Notificações
+( ) |
+( ) |Adicionar Chat por grupo e geral
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |
+( ) |

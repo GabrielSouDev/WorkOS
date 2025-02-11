@@ -15,6 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.BlazorServer", "Work
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorkOS.Shared", "WorkOS.Shared\WorkOS.Shared.csproj", "{4FDF5992-DA61-4EE5-9A77-7D63B33847AD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens de Solução", "{97C81646-7DEC-4825-ADA1-59A9B032C979}"
+	ProjectSection(SolutionItems) = preProject
+		Planos.txt = Planos.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
