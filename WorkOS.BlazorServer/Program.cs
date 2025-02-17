@@ -19,6 +19,8 @@ builder.Services.AddRazorComponents()
 
 var app = builder.Build();
 
+//app.UseMiddleware<>();
+
 app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.

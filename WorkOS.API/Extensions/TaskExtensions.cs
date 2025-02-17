@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Runtime.CompilerServices;
 using WorkOS.API.Hubs;
 using WorkOS.Data.Context;
 using WorkOS.Data.Entitys;
-using WorkOS.Shared;
-using WorkOS.Shared.DTO.Request;
+
 using WorkOS.Shared.DTO.Response;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace WorkOS.API.Extensions;
 public static class TaskExtensions
@@ -22,17 +18,8 @@ public static class TaskExtensions
         group.MapGet("/", async ([FromServices] DAL<TaskItem> dalTask) =>
         {
             var tasks = await dalTask.ToListAsync();
-            List<TaskItemResponseDTO> tasksDTO = new();
-            foreach(var task in tasks)
-            {
-                List<CommentResponseDTO> commentsDto = new();
-                foreach(var comment in task.Comments)
-                {
-                    commentsDto.Add(new CommentResponseDTO(comment.Id, comment.Text, comment.TaskId, task.Title, comment.CreationDate));
-                }
-                tasksDTO.Add(new TaskItemResponseDTO(task.Id, task.Title, task.Description, task.Status,
-                    task.Priority, task.AuthorId, task.Author.Name, commentsDto, task.CreationDate));
-            }
+            var tasksDTO = tasks.Select(t => EntityToDTO(t)).ToList();
+
             return Results.Ok(tasksDTO);
         });
 
@@ -54,5 +41,16 @@ public static class TaskExtensions
             }
             return Results.NotFound();
         });
+    }
+    private static TaskItemResponseDTO EntityToDTO(TaskItem task)
+    {
+        List<CommentResponseDTO> commentsDto = new();
+        foreach (var comment in task.Comments)
+        {
+            commentsDto.Add(new CommentResponseDTO(comment.Id, comment.Text, comment.TaskId, task.Title, comment.CreationDate));
+        }
+
+        return new TaskItemResponseDTO(task.Id, task.Title, task.Description, task.Status,
+                    task.Priority, task.AuthorId, task.Author.Name, commentsDto, task.CreationDate);
     }
 }

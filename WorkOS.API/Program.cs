@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
+using WorkOS.API.Exceptions;
 using WorkOS.API.Extensions;
 using WorkOS.API.Hubs;
 using WorkOS.Data.Context;
@@ -60,6 +61,8 @@ builder.Services.AddTransient<DAL<User>>();
 builder.Services.AddTransient<DAL<TaskItem>>();
 
 var app = builder.Build();
+
+app.UseMiddleware<GlobalExceptionHandler>();
 
 using (var scope = app.Services.CreateScope())
 {
