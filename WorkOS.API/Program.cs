@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using WorkOS.API.Exceptions;
 using WorkOS.API.Extensions;
@@ -11,16 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
 
-//builder.WebHost.ConfigureKestrel(serverOptions =>
-//{
-//    serverOptions.ConfigureHttpsDefaults(listenOptions =>
-//    {
-//        listenOptions.ServerCertificateSelector = (context, name) =>
-//        {
-//            return new X509Certificate2("path/to/your/certificate.pfx", "your-certificate-password");
-//        };
-//    });
-//});
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -89,5 +79,6 @@ app.AddCompanysEndpoints();
 app.AddGroupsEndpoints();
 app.AddUsersEndpoints();
 app.AddTasksEndpoints();
+app.AddCommentEndpoints();
 
 app.Run();

@@ -17,10 +17,26 @@
     </MudDrawer>
 
     <MudMainContent>
-        @Body
+        <ErrorBoundary @ref="errorBoundary">
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <ErrorContent Context="Exception">
+                <MudPaper>
+                    <MudText>@Exception.GetType()</MudText>
+                    <MudText>@Exception.Message</MudText>
+                    <MudButton Color="Color.Error" @onclick="() => errorBoundary.Recover()" />
+                </MudPaper>
+            </ErrorContent>
+        </ErrorBoundary>
     </MudMainContent>
 </MudLayout>
 
 @code {
+    private ErrorBoundary errorBoundary = new ErrorBoundary();
 
+    protected override void OnInitialized()
+    {
+        errorBoundary = new ErrorBoundary();
+    }
 }

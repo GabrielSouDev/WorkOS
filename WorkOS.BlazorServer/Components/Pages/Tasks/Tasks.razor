@@ -41,7 +41,9 @@
     }
 
     protected override async Task OnInitializedAsync()
-    {   
+    {
+        throw new FileNotFoundException();
+
         Loading = true;
 
         TaskList = await TaskService.GetTasksAsync();

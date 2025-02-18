@@ -12,7 +12,7 @@ public static class UserExtensions
 
         group.MapGet("/", async ([FromServices] DAL<User> dalGroup) =>
         {
-
+            throw new NotImplementedException();
         });
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using WorkOS.Shared;
-using WorkOS.Shared.DTO.Request;
-using WorkOS.Shared.DTO.Response;
+﻿using WorkOS.Shared.DTO.Response;
 
 namespace WorkOS.BlazorServer.Services;
 
@@ -15,20 +12,13 @@ public class TaskService
 
     public async Task<List<TaskItemResponseDTO>> GetTasksAsync()
     {
-        try
+        var response = await _httpClient.GetAsync("/Task");
+        if(response.IsSuccessStatusCode)
         {
-            var response = await _httpClient.GetAsync("/Task");
-            if(response.IsSuccessStatusCode)
-            {
-                var taskList = await response.Content.ReadFromJsonAsync<List<TaskItemResponseDTO>>();
-                if(taskList is not null)
-                    return taskList;
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }    
+            var taskList = await response.Content.ReadFromJsonAsync<List<TaskItemResponseDTO>>();
+            if (taskList is not null)
+                return taskList;
+        }  
         return new List<TaskItemResponseDTO>(); 
     }
 

@@ -11,7 +11,7 @@ public static class CompanyExtensions
 
         group.MapGet("/", async ([FromServices]DAL<Company> dalCompany) =>
         {
-
+            throw new NotImplementedException();
         });
     }
 }

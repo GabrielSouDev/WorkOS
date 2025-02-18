@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Runtime.CompilerServices;
+using WorkOS.API.Exceptions;
 using WorkOS.API.Hubs;
 using WorkOS.Data.Context;
 using WorkOS.Data.Entitys;
@@ -18,8 +19,10 @@ public static class TaskExtensions
         group.MapGet("/", async ([FromServices] DAL<TaskItem> dalTask) =>
         {
             var tasks = await dalTask.ToListAsync();
-            var tasksDTO = tasks.Select(t => EntityToDTO(t)).ToList();
+            if(tasks is null)
+                throw new TaskItemNotFoundException();
 
+            var tasksDTO = tasks.Select(t => EntityToDTO(t)).ToList();
             return Results.Ok(tasksDTO);
         });
 
@@ -27,19 +30,18 @@ public static class TaskExtensions
         {
             var task = await dalTask.FindByAsync(t=>t.Id == taskRequest.Id);
 
-            if (task is not null)
-            {
-                task.AuthorId = taskRequest.AuthorId;
-                task.Title = taskRequest.Title;
-                task.Description = taskRequest.Description;
-                task.Status = taskRequest.Status;
-                task.Priority = taskRequest.Priority;
+            if (task is null)
+                throw new TaskItemNotFoundException();
+  
+            task.AuthorId = taskRequest.AuthorId;
+            task.Title = taskRequest.Title;
+            task.Description = taskRequest.Description;
+            task.Status = taskRequest.Status;
+            task.Priority = taskRequest.Priority;
 
-                await dalTask.UpdateAsync(task);
-                await taskHub.Clients.All.SendAsync("UpdateTaskItem", taskRequest);
-                return Results.Content("Task has been updated!");
-            }
-            return Results.NotFound();
+            await dalTask.UpdateAsync(task);
+            await taskHub.Clients.All.SendAsync("UpdateTaskItem", taskRequest);
+            return Results.Content("Task has been updated!");
         });
     }
     private static TaskItemResponseDTO EntityToDTO(TaskItem task)

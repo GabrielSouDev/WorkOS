@@ -11,6 +11,7 @@ public static class GroupExtensions
 
         group.MapGet("/", async ([FromServices]DAL<Group> dalGroup) =>
         {
+            throw new NotImplementedException();
             var groups = await dalGroup.ToListAsync();
             if(groups is not null)
             {
@@ -21,6 +22,7 @@ public static class GroupExtensions
 
         group.MapGet("/{id}", async ([FromServices] DAL<Group> dalGroup, int id) =>
         {
+            throw new NotImplementedException();
             var group = await dalGroup.FindByAsync(g => g.Id.Equals(id));
             if (group is not null)
             {
