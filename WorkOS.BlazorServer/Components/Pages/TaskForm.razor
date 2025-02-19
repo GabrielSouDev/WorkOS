@@ -1,0 +1,48 @@
+﻿@layout NoDrawerLayout
+@rendermode RenderMode.InteractiveServer
+@inject TaskService TaskService
+@inject ISnackbar SnackBar
+@page "/Task-Form"
+@using Microsoft.AspNetCore.Mvc
+
+<MudContainer MaxWidth="MaxWidth.Medium" >
+    <MudPaper>
+        <MudForm Class="pa-7" Model="TaskItemRequest">
+            <MudText Align="Align.Center" Typo="Typo.h5">Register a task</MudText>
+            <MudTextField T="string" Placeholder="Titulo" @bind-value="TaskItemRequest.Title" Required />
+            <MudTextField T="string" Placeholder="Description" @bind-value="TaskItemRequest.Description" AutoGrow="true" Lines="5" Required />
+            <MudSelect Label="Priority" T="PriorityCode" @bind-value="TaskItemRequest.Priority">
+                @foreach (var priority in Enum.GetValues(typeof(PriorityCode)).Cast<PriorityCode>())
+                {
+                    <MudSelectItem Value="priority">@priority</MudSelectItem>
+                }
+            </MudSelect>
+            <MudButton @onclick="Submit">Submit</MudButton>
+            <MudText>@textError</MudText>
+        </MudForm>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    TaskItemRequestDTO TaskItemRequest = new();
+    string textError = string.Empty;
+
+    private async Task Submit()
+    {
+        TaskItemRequest.AuthorId = 1; // para teste
+        var response = await TaskService.PostTaskAsync(TaskItemRequest);
+
+
+        if(response.IsSuccessStatusCode)
+        {
+            SnackBar.Add("Task has been Created!",Severity.Success);
+        }
+        else
+        {
+            var result = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+            if (result.Title is not null)
+                SnackBar.Add(result.Title, Severity.Error);
+        }
+
+    }
+}

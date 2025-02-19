@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using WorkOS.Data.Entitys;
-using WorkOS.Shared;
+using WorkOS.Shared.Enums;
 
 namespace WorkOS.Data.Context;
 
@@ -69,15 +69,15 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<User>().HasData(user1_1, user1_2, user1_3, user1_4, user2_1, user2_2, user3_1, user3_2);
 
         // Gerando as tasks para cada user
-        var task1_1 = new TaskItem(user1_1.Id, "Project Planning", "Plan the next phase of the project", Priority.High) { Id = 1 };
-        var task1_2 = new TaskItem(user1_1.Id, "Budget Review", "Review the budget for the new quarter", Priority.Medium) { Id = 2, Status = StatusCode.Started };
-        var task1_3 = new TaskItem(user1_2.Id, "SEO Strategy", "Develop a strategy for SEO", Priority.Medium) { Id = 3 };
+        var task1_1 = new TaskItem(user1_1.Id, "Project Planning", "Plan the next phase of the project", PriorityCode.High) { Id = 1 };
+        var task1_2 = new TaskItem(user1_1.Id, "Budget Review", "Review the budget for the new quarter", PriorityCode.Medium) { Id = 2, Status = StatusCode.Started };
+        var task1_3 = new TaskItem(user1_2.Id, "SEO Strategy", "Develop a strategy for SEO", PriorityCode.Medium) { Id = 3 };
 
-        var task2_1 = new TaskItem(user2_1.Id, "Software Development", "Develop the new features for the app", Priority.High) { Id = 4, Status = StatusCode.Completed };
-        var task2_2 = new TaskItem(user2_2.Id, "Design Mockups", "Create mockups for the new UI design", Priority.Low) { Id = 5 };
+        var task2_1 = new TaskItem(user2_1.Id, "Software Development", "Develop the new features for the app", PriorityCode.High) { Id = 4, Status = StatusCode.Completed };
+        var task2_2 = new TaskItem(user2_2.Id, "Design Mockups", "Create mockups for the new UI design", PriorityCode.Low) { Id = 5 };
 
-        var task3_1 = new TaskItem(user3_1.Id, "Product Testing", "Test the new features in the product", Priority.Medium) { Id = 6 };
-        var task3_2 = new TaskItem(user3_2.Id, "Customer Support", "Respond to customer inquiries", Priority.Low) { Id = 7 };
+        var task3_1 = new TaskItem(user3_1.Id, "Product Testing", "Test the new features in the product", PriorityCode.Medium) { Id = 6 };
+        var task3_2 = new TaskItem(user3_2.Id, "Customer Support", "Respond to customer inquiries", PriorityCode.Low) { Id = 7 };
 
         modelBuilder.Entity<TaskItem>().HasData(task1_1, task1_2, task1_3, task2_1, task2_2, task3_1, task3_2);
 
@@ -107,7 +107,7 @@ public class ApplicationDbContext : DbContext
             await this.Users.AddAsync(user);
             await this.SaveChangesAsync();
 
-            var task = new TaskItem(user.Id, "Teste Task", "This is a test description.", Priority.Medium);
+            var task = new TaskItem(user.Id, "Teste Task", "This is a test description.", PriorityCode.Medium);
             await this.Tasks.AddAsync(task);
             await this.SaveChangesAsync();
 

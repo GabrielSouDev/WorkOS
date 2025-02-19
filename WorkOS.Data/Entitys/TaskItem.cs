@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorkOS.Shared;
+using WorkOS.Shared.Enums;
 
 namespace WorkOS.Data.Entitys;
 
 public class TaskItem
 {
     public TaskItem() { }
-    public TaskItem(int authorId, string title, string description, Priority priority)
+    public TaskItem(int authorId, string title, string description, PriorityCode priority)
     {
         AuthorId = authorId;
         Title = title;
@@ -26,7 +26,7 @@ public class TaskItem
     public string Title { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public StatusCode Status { get; set; }
-    public Priority Priority { get; set; }
+    public PriorityCode Priority { get; set; }
     public virtual ICollection<Comment> Comments { get; set; }
     public DateTime CreationDate { get; set; }
 }

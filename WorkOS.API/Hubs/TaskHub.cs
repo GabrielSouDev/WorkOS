@@ -5,8 +5,9 @@ namespace WorkOS.API.Hubs;
 
 public class TaskHub : Hub
 {
-    public async Task StreamUpdatedItem(TaskItemResponseDTO task)
+    public async Task Streaming(TaskItemResponseDTO task)
     {
         await Clients.All.SendAsync("UpdateTaskItem", task);
+        await Clients.All.SendAsync("NewTaskItem", task);
     }
 }

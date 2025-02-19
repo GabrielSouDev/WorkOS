@@ -16,6 +16,8 @@
                 <TaskTable TableColor="@("#c83fd6")" OpenDrawer="OpenTaskDrawer" Title="Plan" TaskList="TasksPlan" />
                 <TaskTable TableColor="@("#5ce3ea")" OpenDrawer="OpenTaskDrawer" Title="Started" TaskList="TasksStarted" />
                 <TaskTable TableColor="@("#94fc22")" OpenDrawer="OpenTaskDrawer" Title="Completed" TaskList="TasksCompleted" />
+                <TaskTable TableColor="@("red")" OpenDrawer="OpenTaskDrawer" Title="Canceled" TaskList="TasksCanceled" />
+                <TaskTable TableColor="@("brown")" OpenDrawer="OpenTaskDrawer" Title="Archived" TaskList="TasksArchived" />
             </MudContainer>
         </CascadingValue>
     </CascadingValue>
@@ -26,9 +28,13 @@
 @code {
     public string SearchString = string.Empty;
     private List<TaskItemResponseDTO> TaskList = new();
+
     public List<TaskItemResponseDTO> TasksPlan = new();
     public List<TaskItemResponseDTO> TasksStarted = new();
     public List<TaskItemResponseDTO> TasksCompleted = new();
+    public List<TaskItemResponseDTO> TasksCanceled = new();
+    public List<TaskItemResponseDTO> TasksArchived = new();
+
     public bool Loading = false;
 
     public bool IsDrawerOpen { get; set; } = false;
@@ -42,8 +48,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        throw new FileNotFoundException();
-
         Loading = true;
 
         TaskList = await TaskService.GetTasksAsync();
@@ -51,6 +55,11 @@
 
         Loading = false;
 
+        await HubConnect();
+    }
+
+    private async Task HubConnect()
+    {
         var httpClientHandler = new HttpClientHandler();
         httpClientHandler.SslProtocols = System.Security.Authentication.SslProtocols.Tls12;
         //httpClientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
@@ -75,13 +84,30 @@
                 StateHasChanged();
             });
         });
+
+        connection.On<TaskItemResponseDTO>("NewTaskItem", newData =>
+        {
+            TaskList.Add(newData);
+
+            InvokeAsync(() =>
+            {
+                ModelTables(TaskList);
+                StateHasChanged();
+            });
+        });
+
         await connection.StartAsync();
     }
 
     private void ModelTables(List<TaskItemResponseDTO> taskList)
     {
-        TasksPlan = taskList.Where(t => t.Status == StatusCode.Plan).Select(t => t).ToList();
-        TasksStarted = taskList.Where(t => t.Status == StatusCode.Started).Select(t => t).ToList();
-        TasksCompleted = taskList.Where(t => t.Status == StatusCode.Completed).Select(t => t).ToList();
+        TasksPlan = ModelTableByStatus(taskList, StatusCode.Plan);
+        TasksStarted = ModelTableByStatus(taskList, StatusCode.Started);
+        TasksCompleted = ModelTableByStatus(taskList, StatusCode.Completed);
+        TasksCanceled = ModelTableByStatus(taskList, StatusCode.Canceled);
+        TasksArchived = ModelTableByStatus(taskList, StatusCode.Archived);
     }
+
+    private List<TaskItemResponseDTO> ModelTableByStatus(List<TaskItemResponseDTO> taskList, StatusCode status) =>
+    taskList.Where(t => t.Status == status).Select(t => t).ToList();
 }

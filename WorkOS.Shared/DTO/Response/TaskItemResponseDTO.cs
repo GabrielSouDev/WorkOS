@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using WorkOS.Shared.Enums;
 
 namespace WorkOS.Shared.DTO.Response;
 
 public class TaskItemResponseDTO
 {
-    public TaskItemResponseDTO(int id, string title, string description, StatusCode status,Priority priority, int authorId,string author, List<CommentResponseDTO> comments, DateTime creationDate)
+    public TaskItemResponseDTO(int id, string title, string description, StatusCode status,PriorityCode priority, int authorId,string author, List<CommentResponseDTO> comments, DateTime creationDate)
     {
         Id = id;
         Title = title;
@@ -29,7 +30,7 @@ public class TaskItemResponseDTO
     [JsonConverter(typeof(StringEnumConverter))]
     public StatusCode Status { get; set; }
     [JsonConverter(typeof(StringEnumConverter))]
-    public Priority Priority { get; set; }
+    public PriorityCode Priority { get; set; }
     public int AuthorId { get; set; }
     public string Author { get; set; }
     public List<CommentResponseDTO> Comments { get; set; }

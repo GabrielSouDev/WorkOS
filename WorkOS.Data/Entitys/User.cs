@@ -1,4 +1,4 @@
-﻿using WorkOS.Shared;
+﻿using WorkOS.Shared.Enums;
 
 namespace WorkOS.Data.Entitys;
 

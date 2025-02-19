@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using WorkOS.Shared.Enums;
 
 namespace WorkOS.Shared.DTO.Response;
 
