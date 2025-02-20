@@ -4,13 +4,12 @@ using WorkOS.API.Exceptions;
 using WorkOS.API.Extensions;
 using WorkOS.API.Hubs;
 using WorkOS.Data.Context;
+using WorkOS.Data.DAL;
 using WorkOS.Data.Entitys;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSignalR();
-
-
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
@@ -48,7 +47,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<DAL<Company>>();
 builder.Services.AddTransient<DAL<Group>>();
 builder.Services.AddTransient<DAL<User>>();
-builder.Services.AddTransient<DAL<TaskItem>>();
+builder.Services.AddTransient<TaskRepository>();
 
 var app = builder.Build();
 

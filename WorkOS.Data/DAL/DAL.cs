@@ -1,8 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
+using WorkOS.Data.Context;
 
-namespace WorkOS.Data.Context;
+namespace WorkOS.Data.DAL;
 
+//TEMPORARIO, IRA SER ALTERADO PELOS REPOSITORY
 public class DAL<T> where T : class
 {
     private readonly ApplicationDbContext _context;
@@ -10,6 +14,13 @@ public class DAL<T> where T : class
     public DAL(ApplicationDbContext _context)
     {
         this._context = _context;
+    }
+
+    public async Task<IEnumerable<T>> IncludeAsync<T, TProperty>(Expression<Func<T, TProperty>> expression) where T : class
+    {
+        return await _context.Set<T>()
+                             .Include(expression)
+                             .ToListAsync();
     }
 
     public async Task<IEnumerable<T>> ToListAsync()

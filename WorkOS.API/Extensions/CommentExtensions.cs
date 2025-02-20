@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WorkOS.Data.Context;
+using WorkOS.Data.DAL;
 using WorkOS.Data.Entitys;
 
 namespace WorkOS.API.Extensions;

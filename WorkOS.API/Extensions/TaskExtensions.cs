@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Runtime.CompilerServices;
 using WorkOS.API.Exceptions;
 using WorkOS.API.Hubs;
-using WorkOS.Data.Context;
+using WorkOS.Data.DAL;
 using WorkOS.Data.Entitys;
 using WorkOS.Shared.DTO.Request;
 using WorkOS.Shared.DTO.Response;
@@ -16,42 +16,34 @@ public static class TaskExtensions
     {
         var group = app.MapGroup("/Task");
 
-        group.MapGet("/", async ([FromServices] DAL<TaskItem> dalTask) =>
+        group.MapGet("/", async ([FromServices] TaskRepository taskRepository) => 
+        await taskRepository.GetAllAsync());
+
+        group.MapPut("/", async ([FromServices] TaskRepository taskRepository, [FromBody] TaskItemResponseDTO taskResponseEdited, IHubContext<TaskHub> taskHub) =>
         {
-            var tasks = await dalTask.ToListAsync();
-            if(tasks is null)
-                throw new TaskItemNotFoundException();
-
-            var tasksDTO = tasks.Select(t => ToDTO(t)).ToList();
-            return Results.Ok(tasksDTO);
-        });
-
-        group.MapPut("/", async ([FromServices]DAL<TaskItem> dalTask, [FromBody] TaskItemResponseDTO taskRequest, IHubContext<TaskHub> taskHub) =>
-        {
-            var task = await dalTask.FindByAsync(t=>t.Id == taskRequest.Id);
-
-            if (task is null)
-                throw new TaskItemNotFoundException();
+            var task = await taskRepository.FindByIdAsync(taskResponseEdited.Id);
   
-            task.AuthorId = taskRequest.AuthorId;
-            task.Title = taskRequest.Title;
-            task.Description = taskRequest.Description;
-            task.Status = taskRequest.Status;
-            task.Priority = taskRequest.Priority;
+            task.AuthorId = taskResponseEdited.AuthorId;
+            task.Title = taskResponseEdited.Title;
+            task.Description = taskResponseEdited.Description;
+            task.Status = taskResponseEdited.Status;
+            task.Priority = taskResponseEdited.Priority;
 
-            await dalTask.UpdateAsync(task);
-            await taskHub.Clients.All.SendAsync("UpdateTaskItem", taskRequest);
+            await taskRepository.UpdateAsync(task);
+            await taskHub.Clients.All.SendAsync("UpdateTaskItem", taskResponseEdited);
             return Results.Content("Task has been updated!");
         });
 
+
+        //CONTINUAR AQUI
         group.MapPost("/", async ([FromServices]DAL<TaskItem> dalTask, [FromBody] TaskItemRequestDTO taskRequest, IHubContext<TaskHub> taskHub) =>
         {
             var task = ToEntity(taskRequest);
             await dalTask.AddAsync(task);
 
-            var taskEntity = dalTask.FindByAsync(t => t.Id == task.Id).GetAwaiter().GetResult() ;
+            //task = await dalTask.IncludeAsync<TaskItem, User>(t => t.Author).FindByAsync(t => t.Id == task.Id);
 
-            var taskResponse = ToDTO(taskEntity);
+            var taskResponse = ToDTO(task);
 
             await taskHub.Clients.All.SendAsync("NewTaskItem", taskResponse);
 
