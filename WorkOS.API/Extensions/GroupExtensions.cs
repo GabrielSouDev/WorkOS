@@ -9,26 +9,33 @@ public static class GroupExtensions
     {
         var group = app.MapGroup("Group");
 
-        group.MapGet("/", async ([FromServices]DAL<Group> dalGroup) =>
+        group.MapGet("/", async ([FromServices] GroupRepository groupRepository) =>
         {
             throw new NotImplementedException();
-            var groups = await dalGroup.ToListAsync();
-            if(groups is not null)
-            {
-                return Results.Ok(groups);
-            }
-            return Results.NotFound();
         });
 
-        group.MapGet("/{id}", async ([FromServices] DAL<Group> dalGroup, int id) =>
+        //Get By Id
+        group.MapGet("/{id}", async (int id) =>
         {
             throw new NotImplementedException();
-            var group = await dalGroup.FindByAsync(g => g.Id.Equals(id));
-            if (group is not null)
-            {
-                return Results.Ok(group);
-            }
-            return Results.NotFound();
+        });
+
+        //Post
+        group.MapPost("/", async () =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Put
+        group.MapPut("/", async () =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Delete
+        group.MapDelete("/{id}", async (int id) =>
+        {
+            throw new NotImplementedException();
         });
     }
 }

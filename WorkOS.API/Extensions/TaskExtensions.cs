@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.Runtime.CompilerServices;
-using WorkOS.API.Exceptions;
 using WorkOS.API.Hubs;
 using WorkOS.Data.DAL;
 using WorkOS.Data.Entitys;
+using WorkOS.Data.Exceptions;
 using WorkOS.Shared.DTO.Request;
 using WorkOS.Shared.DTO.Response;
 
@@ -16,8 +14,14 @@ public static class TaskExtensions
     {
         var group = app.MapGroup("/Task");
 
-        group.MapGet("/", async ([FromServices] TaskRepository taskRepository) => 
-        await taskRepository.GetAllAsync());
+        group.MapGet("/", async ([FromServices] TaskRepository taskRepository) =>
+        {
+            var taskList = await taskRepository.GetAllAsync();
+            if (taskList is null)
+                throw new EntityNotFoundException();
+
+            return taskList.Select(t=> ToDTO(t)).ToList();
+        });
 
         group.MapPut("/", async ([FromServices] TaskRepository taskRepository, [FromBody] TaskItemResponseDTO taskResponseEdited, IHubContext<TaskHub> taskHub) =>
         {
@@ -34,14 +38,10 @@ public static class TaskExtensions
             return Results.Content("Task has been updated!");
         });
 
-
-        //CONTINUAR AQUI
-        group.MapPost("/", async ([FromServices]DAL<TaskItem> dalTask, [FromBody] TaskItemRequestDTO taskRequest, IHubContext<TaskHub> taskHub) =>
+        group.MapPost("/", async ([FromServices] TaskRepository taskRepository, [FromBody] TaskItemRequestDTO taskRequest, IHubContext<TaskHub> taskHub) =>
         {
             var task = ToEntity(taskRequest);
-            await dalTask.AddAsync(task);
-
-            //task = await dalTask.IncludeAsync<TaskItem, User>(t => t.Author).FindByAsync(t => t.Id == task.Id);
+            await taskRepository.AddAsync(task);
 
             var taskResponse = ToDTO(task);
 

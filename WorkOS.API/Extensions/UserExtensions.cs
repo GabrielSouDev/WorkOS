@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using WorkOS.Data.DAL;
 using WorkOS.Data.Entitys;
 
@@ -10,7 +11,32 @@ public static class UserExtensions
     {
         var group = app.MapGroup("User");
 
-        group.MapGet("/", async ([FromServices] DAL<User> dalGroup) =>
+        //Get All
+        group.MapGet("/", async ([FromServices] UserRepository userRepository) =>
+        {
+            throw new NotImplementedException();
+        });
+        
+        //Get By Id
+        group.MapGet("/{id}", async (int id) =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Post
+        group.MapPost("/", async () =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Put
+        group.MapPut("/", async () =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Delete
+        group.MapDelete("/{id}", async (int id) =>
         {
             throw new NotImplementedException();
         });

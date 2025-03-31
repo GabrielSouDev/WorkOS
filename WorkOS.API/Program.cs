@@ -44,10 +44,11 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<DAL<Company>>();
-builder.Services.AddTransient<DAL<Group>>();
-builder.Services.AddTransient<DAL<User>>();
+builder.Services.AddTransient<CompanyRepository>();
+builder.Services.AddTransient<GroupRepository>();
+builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<TaskRepository>();
+builder.Services.AddTransient<CommentRepository>();
 
 var app = builder.Build();
 

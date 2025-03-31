@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using WorkOS.Data.Exceptions;
 
 namespace WorkOS.API.Exceptions;
 
@@ -27,10 +28,10 @@ public class GlobalExceptionHandler : IExceptionHandler
         ProblemDetails problemDetails;
         switch(exception)
         {
-            case TaskItemNotFoundException:
+            case EntityNotFoundException:
                 problemDetails = new ProblemDetails
                 {
-                    Title = "Task Item não encontrado",
+                    Title = "Entity Item não encontrado",
                     Status = StatusCodes.Status404NotFound,
                     Detail = exception.Message
                 };

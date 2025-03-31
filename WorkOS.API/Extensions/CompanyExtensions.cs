@@ -9,7 +9,31 @@ public static class CompanyExtensions
     {
         var group = app.MapGroup("Company");
 
-        group.MapGet("/", async ([FromServices]DAL<Company> dalCompany) =>
+        group.MapGet("/", async ([FromServices] CompanyRepository companyRepository) =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Get By Id
+        group.MapGet("/{id}", async (int id) =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Post
+        group.MapPost("/", async () =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Put
+        group.MapPut("/", async () =>
+        {
+            throw new NotImplementedException();
+        });
+
+        //Delete
+        group.MapDelete("/{id}", async (int id) =>
         {
             throw new NotImplementedException();
         });
