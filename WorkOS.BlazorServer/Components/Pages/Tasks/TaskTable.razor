@@ -12,11 +12,11 @@
             <MudTable Style=@($"border-left: 5px solid {TableColor};") Items="@TaskList" Filter="@_quickFilter" Hover="true" Breakpoint="Breakpoint.Sm"
                       Loading="@Loading" LoadingProgressColor="Color.Info">
                 <HeaderContent>
-                    <MudTh>Id</MudTh>
-                    <MudTh>Title</MudTh>
-                    <MudTh>Priority</MudTh>
-                    <MudTh>Author</MudTh>
-                    <MudTh>CreationDate</MudTh>
+                    <MudTh Style="width: 1%;">Id</MudTh>
+                    <MudTh Style="width: 25%;">Title</MudTh>
+                    <MudTh Style="width: 10%;">Priority</MudTh>
+                    <MudTh Style="width: 15%;">Author</MudTh>
+                    <MudTh Style="width: 10%;">CreationDate</MudTh>
                 </HeaderContent>
                 <RowTemplate>
                     <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
@@ -30,6 +30,9 @@
                     <MudTd @onclick="() => OpenDrawer.InvokeAsync(context)"
                            DataLabel="CreationDate">@context.CreationDate</MudTd>
                 </RowTemplate>
+                <PagerContent>
+                    <MudTablePager  />
+                </PagerContent>
             </MudTable>
         </MudPaper>
         <MudPaper Class="rounded-b-xl mb-5" Width="90%" Height="5px" />

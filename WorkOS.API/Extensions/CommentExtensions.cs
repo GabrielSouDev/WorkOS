@@ -24,6 +24,7 @@ public static class CommentExtensions
         //Put
         group.MapPut("/", async ([FromServices] CommentRepository commentRepository, [FromBody] CommentResponseDTO commentResponse) =>
         {
+            Console.WriteLine($"Id: {commentResponse.Id}\nComment: {commentResponse.Text}");
             var commentEntity = await commentRepository.FindByIdAsync(commentResponse.Id);
             if (commentEntity is null)
                 throw new EntityNotFoundException();

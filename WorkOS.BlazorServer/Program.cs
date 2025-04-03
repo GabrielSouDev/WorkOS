@@ -12,6 +12,7 @@ builder.Services.AddScoped(sp => new HttpClient() { BaseAddress = new Uri("http:
 
 builder.Services.AddSingleton<ThemeService>();
 builder.Services.AddScoped<TaskService>();
+builder.Services.AddScoped<CommentService>();
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

@@ -1,5 +1,6 @@
 ﻿@rendermode InteractiveServer
 @inject TaskService TaskService
+@inject CommentService CommentService
 @inject ISnackbar SnackBar
 
 <MudDrawer Class="pa-2" Width="25%" hidden="@(!IsDrawerOpen)" Open="IsDrawerOpen" Elevation="25"
@@ -34,11 +35,11 @@
         }
         @if (_openedTab["Comments"])
         {
-            @foreach (var comment in DrawerTask.Comments)
+            @for (int i = 0; i < DrawerTask.Comments.Count; i++)
             {
                 <MudContainer class="mb-2">
-                    <MudTextField AutoGrow Lines="4" T="string" Value="comment.Text" ValueChanged="TaskChanged" />
-                    <MudText>@comment.CreationDate</MudText>
+                    <MudTextField AutoGrow Lines="4" T="string" Value="DrawerTask.Comments[i - 1].Text" ValueChanged="() => CommentChanged(DrawerTask.Comments[i - 1])" />
+                    <MudText>@DrawerTask.Comments[i - 1].CreationDate</MudText>
                 </MudContainer>
             }
         }
@@ -65,17 +66,33 @@
         TaskChanged();
     }
 
+    private async void CommentChanged(CommentResponseDTO comment)
+    {  
+        var response = await CommentService.PutCommentAsync(comment);
+        ShowSnackBarResponse(response);
+    }
+
     private async void TaskChanged()
     {
         var response = await TaskService.PutTaskAsync(DrawerTask);
+        ShowSnackBarResponse(response);
+    }
 
-        var responseMessage = await response.Content.ReadAsStringAsync();
-
-        if(response.IsSuccessStatusCode)
+    private async void ShowSnackBarResponse(HttpResponseMessage? response)
+    {
+        string responseMessage;
+        if(response is not null)
         {
-            SnackBar.Add(responseMessage, Severity.Success);
-        }else
+            responseMessage = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {   
+                SnackBar.Add(responseMessage, Severity.Success);
+            }
+            else
             SnackBar.Add(responseMessage, Severity.Error);
+        }
+        else
+            SnackBar.Add("Falha na requisição!", Severity.Error);
     }
 
     private void ShowDetails()
