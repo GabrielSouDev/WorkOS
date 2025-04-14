@@ -38,7 +38,7 @@
             @for (int i = 0; i < DrawerTask.Comments.Count; i++)
             {
                 <MudContainer class="mb-2">
-                    <MudTextField AutoGrow Lines="4" T="string" Value="DrawerTask.Comments[i - 1].Text" ValueChanged="() => CommentChanged(DrawerTask.Comments[i - 1])" />
+                    <MudTextField AutoGrow Lines="4" T="string" Value="DrawerTask.Comments[i - 1].Text" ValueChanged="() => CommentChanged(DrawerTask.Comments[i - 1], DrawerTask.Comments[i - 1].Text)" />
                     <MudText>@DrawerTask.Comments[i - 1].CreationDate</MudText>
                 </MudContainer>
             }
@@ -66,8 +66,10 @@
         TaskChanged();
     }
 
-    private async void CommentChanged(CommentResponseDTO comment)
-    {  
+    private async void CommentChanged(int commentId, string commentText)
+    {
+        var comment = DrawerTask.Comments.Select(c => c).Where(c => c.Id.Equals(commentId)).FirstOrDefault();
+        comment.Text = commentText;
         var response = await CommentService.PutCommentAsync(comment);
         ShowSnackBarResponse(response);
     }
